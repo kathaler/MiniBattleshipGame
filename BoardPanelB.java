@@ -4,7 +4,7 @@ import java.awt.event.MouseListener;
 
 public class BoardPanelB extends BoardPanel implements MouseListener {
     public BoardPanelB(){
-
+        Client client = new Client();
     }
     @Override
     public void mouseClicked(MouseEvent e) {
