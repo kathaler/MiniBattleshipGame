@@ -10,6 +10,7 @@ public class Game extends JFrame implements ActionListener {
     public Game() {
         super("Mini Battleship Game");
         GridLayout grid = new GridLayout(2,1);
+
         b1 = new BoardPanelA();
         b2 = new BoardPanelB();
         this.setLayout(grid);

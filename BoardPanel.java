@@ -6,16 +6,24 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class BoardPanel extends JPanel implements MouseListener, Observer {
+    private static final int SIDES = 10;
+    private static final int SIDE_LENGTH = 60;
+    private static final int GAP = 3;
+    private static final Color BG = Color.GRAY;
+    private static final Color CELL_COLOR = new Color(191,230,255);
     public BoardPanel(){
         addMouseListener(this);
-        GridLayout grid = new GridLayout(10,10, -1, -1);
-        this.setLayout(grid);
-        this.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
-
-        for (int i =0; i<(10*10); i++){
-            final JLabel label = new JLabel("");
-            label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            this.add(label);
+        setBackground(BG);
+        setBorder(BorderFactory.createEmptyBorder(GAP, GAP, GAP, GAP));
+        setLayout(new GridLayout(SIDES, SIDES, GAP, GAP));
+        Dimension prefSize = new Dimension(SIDE_LENGTH, SIDE_LENGTH);
+        for (int i = 0; i < SIDES; i++) {
+            for (int j = 0; j < SIDES; j++) {
+                JPanel cell = new JPanel();
+                cell.setBackground(CELL_COLOR);
+                cell.setPreferredSize(prefSize);
+                add(cell);
+            }
         }
     }
 
