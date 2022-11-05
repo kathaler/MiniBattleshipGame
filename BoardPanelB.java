@@ -1,7 +1,11 @@
+import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class BoardPanelB extends BoardPanel implements MouseListener {
+    public BoardPanelB(){
+
+    }
     @Override
     public void mouseClicked(MouseEvent e) {
 
