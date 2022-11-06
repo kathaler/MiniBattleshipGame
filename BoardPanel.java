@@ -6,7 +6,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class BoardPanel extends JPanel implements MouseListener, Observer {
-    private static final int SIDES = 10;
+    private static final int SIDES = 11;
     private static final int SIDE_LENGTH = 60;
     private static final int GAP = 3;
     private static final Color BG = Color.GRAY;
