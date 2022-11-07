@@ -7,6 +7,7 @@ import java.net.UnknownHostException;
 public class Server implements Runnable{
     private InetAddress ip;
     private ServerSocket server;
+    private Socket clientSocket;
     private BlackBoard bb;
     public Server() {
         this.bb = new BlackBoard();
@@ -16,6 +17,18 @@ public class Server implements Runnable{
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+    public void accept() throws IOException {
+        clientSocket = server.accept();
+        System.out.println("Success");
+    }
+
+    public String getIP() {
+        return this.ip.getHostAddress();
+    }
+
+    public int getPort() {
+        return server.getLocalPort();
     }
 
     @Override

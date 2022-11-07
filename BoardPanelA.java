@@ -6,6 +6,7 @@ public class BoardPanelA extends BoardPanel implements MouseListener {
     private BlackBoard bb;
     public BoardPanelA() {
         bb = new BlackBoard();
+        bb.addObserver(this);
     }
     @Override
     public void mouseClicked(MouseEvent e) {
