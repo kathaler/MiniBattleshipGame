@@ -6,7 +6,7 @@ import java.awt.event.MouseListener;
 import java.util.Observable;
 import java.util.Observer;
 
-public class BoardPanel extends JPanel implements MouseListener, Observer {
+public class BoardPanel extends JPanel implements Observer {
     JPanel[][] panels;
     private static final int SIDES = 11;
     private static final int SIDE_LENGTH = 34;
@@ -22,7 +22,11 @@ public class BoardPanel extends JPanel implements MouseListener, Observer {
         panel.setLayout(new GridLayout(SIDES, SIDES, GAP, GAP));
         for (int i = 0; i < SIDES; i++) {
             for (int j = 0; j < SIDES; j++) {
-                JPanel cell = new JPanel();
+                boolean c = true;
+                if(i == 0 || j == 0) {
+                    c = false;
+                }
+                JPanel cell = new Square(i,j,c);
                 cell.setBackground(CELL_COLOR);
                 cell.setPreferredSize(prefSize);
                 panels[i][j] = cell;
@@ -70,30 +74,6 @@ public class BoardPanel extends JPanel implements MouseListener, Observer {
 
     @Override
     protected void paintComponent(Graphics g) {
-
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
 
     }
 }
