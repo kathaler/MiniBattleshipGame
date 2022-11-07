@@ -1,20 +1,28 @@
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.tools.Tool;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
 public class BoardPanel extends JPanel implements Observer {
-    JPanel[][] panels;
+    Square[][] panels;
+    ArrayList<Square> areClicked;
     private static final int SIDES = 11;
     private static final int SIDE_LENGTH = 34;
     private static final int GAP = 2;
     private static final Color BG = Color.GRAY;
     private static final Color CELL_COLOR = new Color(191,230,255);
+
     public BoardPanel(){
-        this.panels = new JPanel[SIDES][SIDES];
+        this.panels = new Square[SIDES][SIDES];
+        this.areClicked = new ArrayList<>();
         Dimension prefSize = new Dimension(SIDE_LENGTH, SIDE_LENGTH);
         JPanel panel = new JPanel();
         panel.setBackground(BG);
@@ -26,7 +34,7 @@ public class BoardPanel extends JPanel implements Observer {
                 if(i == 0 || j == 0) {
                     c = false;
                 }
-                JPanel cell = new Square(i,j,c);
+                Square cell = new Square(i,j,c, this);
                 cell.setBackground(CELL_COLOR);
                 cell.setPreferredSize(prefSize);
                 panels[i][j] = cell;
@@ -65,15 +73,19 @@ public class BoardPanel extends JPanel implements Observer {
         return p;
     }
 
+    void updateSquares() throws IOException {
+        this.setBackground(BG);
+        System.out.println("CLICK");
+    }
+
     @Override
     public void update(Observable o, Object arg) {
-        if(MouseEvent.MOUSE_PRESSED == 1) {
-            System.out.println("In BoardPanel");
-        }
+
     }
 
     @Override
     protected void paintComponent(Graphics g) {
 
     }
+
 }

@@ -17,7 +17,7 @@ public class BlackBoard extends Observable {
     }
 
     public void notifying() {
-        //observer.update(this);
+        observer.update(this, this);
     }
     
     
