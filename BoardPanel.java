@@ -1,18 +1,11 @@
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.tools.Tool;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
 public class BoardPanel extends JPanel implements Observer {
-    Square[][] panels;
+    Square[][] squares;
     JPanel main;
     ArrayList<Square> areClicked;
     private static final int SIDES = 11;
@@ -28,7 +21,7 @@ public class BoardPanel extends JPanel implements Observer {
     }
 
     void refreshMainPanel(Square[][] sqr) {
-        this.panels = new Square[SIDES][SIDES];
+        this.squares = new Square[SIDES][SIDES];
         this.areClicked = new ArrayList<>();
         Dimension prefSize = new Dimension(SIDE_LENGTH, SIDE_LENGTH);
         main = new JPanel();
@@ -49,27 +42,27 @@ public class BoardPanel extends JPanel implements Observer {
                 }
                 cell.setBackground(CELL_COLOR);
                 cell.setPreferredSize(prefSize);
-                panels[i][j] = cell;
+                squares[i][j] = cell;
             }
         }
 
-        panels[0][0].add(new JLabel());
-        panels[0][1].add(label("A"));
-        panels[0][2].add(label("B"));
-        panels[0][3].add(label("C"));
-        panels[0][4].add(label("D"));
-        panels[0][5].add(label("E"));
-        panels[0][6].add(label("F"));
-        panels[0][7].add(label("G"));
-        panels[0][8].add(label("H"));
-        panels[0][9].add(label("I"));
-        panels[0][10].add(label("J"));
+        squares[0][0].add(new JLabel());
+        squares[0][1].add(label("A"));
+        squares[0][2].add(label("B"));
+        squares[0][3].add(label("C"));
+        squares[0][4].add(label("D"));
+        squares[0][5].add(label("E"));
+        squares[0][6].add(label("F"));
+        squares[0][7].add(label("G"));
+        squares[0][8].add(label("H"));
+        squares[0][9].add(label("I"));
+        squares[0][10].add(label("J"));
 
         for(int i = 1; i < SIDES; i++) {
-            panels[i][0].add(label(String.valueOf(i)));
+            squares[i][0].add(label(String.valueOf(i)));
         }
 
-        for(JPanel[] i : panels) {
+        for(JPanel[] i : squares) {
             for(JPanel j : i) {
                 main.add(j);
             }

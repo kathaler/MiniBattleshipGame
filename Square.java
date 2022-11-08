@@ -10,6 +10,7 @@ public class Square extends JPanel implements MouseListener{
     private boolean clickable;
     private boolean isClicked;
     private JLabel status;
+    private boolean isShip;
     private BoardPanel bp;
 
     public Square(int x, int y, boolean c, BoardPanel boardPanel) {
@@ -17,6 +18,7 @@ public class Square extends JPanel implements MouseListener{
         this.y = y;
         this.clickable = c;
         this.isClicked = false;
+        this.isShip = false;
         this.status = new JLabel("");
         this.status.setForeground(Color.RED);
         this.status.setFont(new Font("Verdana", Font.BOLD, 18));
@@ -25,7 +27,7 @@ public class Square extends JPanel implements MouseListener{
         this.addMouseListener(this);
     }
 
-    public Square(int x, int y, boolean clickable, boolean isClicked, BoardPanel bp) {
+    public Square(int x, int y, boolean clickable, boolean isClicked, boolean isShip, BoardPanel bp) {
         this.x = x;
         this.y = y;
         this.clickable = clickable;
@@ -36,35 +38,22 @@ public class Square extends JPanel implements MouseListener{
         } else {
             this.status = new JLabel("");
         }
+        if(isShip) {
+            this.setBackground(Color.BLACK);
+        }
         this.status.setForeground(Color.RED);
         this.status.setFont(new Font("Verdana", Font.BOLD, 18));
         this.add(status);
         this.addMouseListener(this);
     }
 
+    public void makeShip() {
+        this.isShip = true;
+        this.setBackground(Color.BLACK);
+    }
+
     public void setClickable(boolean clickable) {
         this.clickable = clickable;
-    }
-
-    public boolean isClickable() {
-        return clickable;
-    }
-
-    public boolean isClicked() {
-        return isClicked;
-    }
-
-    public int getRow() {
-        return x;
-    }
-
-    public int getCol() {
-        return y;
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
     }
 
     @Override
@@ -81,8 +70,13 @@ public class Square extends JPanel implements MouseListener{
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(this.x + "," + this.y + "," + this.isClicked + "," + this.clickable + "/");
+        sb.append(this.x + "," + this.y + "," + this.isClicked + "," + this.clickable + "," + this.isShip + "/");
         return sb.toString();
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
     }
 
     @Override
