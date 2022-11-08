@@ -3,30 +3,36 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-public class Client {
-    private BoardPanel bp;
+public class Client implements Runnable{
+    //private BoardPanelB bp;
     private Socket socket;
-    DataOutputStream dout;
-    DataInputStream dis;
-    public Client(BoardPanel bp) throws IOException {
-       this.bp = bp;
-    }
-
-    public void establishConnection(String ip, int port) throws IOException {
+    private BlackBoard bb;
+    DataOutputStream out;
+    DataInputStream in;
+    public Client(String ip, int port) throws IOException {
+        this.bb = BlackBoard.getInstance();
         socket = new Socket(ip, port);
-        dout = new DataOutputStream(socket.getOutputStream());
-        dis = new DataInputStream(socket.getInputStream());
-
-    }
-
-    public void write(String str) throws IOException {
-        dout = new DataOutputStream(socket.getOutputStream());
-        dout.writeUTF(str);
-        dout.flush();
+        out = new DataOutputStream(socket.getOutputStream());
+        in = new DataInputStream(socket.getInputStream());
     }
 
     public void read() throws IOException {
-        String str = dis.readUTF();
-        System.out.println("message=" + str);
+        out.writeUTF(bb.getTable1());
+    }
+
+    private void write() throws IOException {
+        BlackBoard.getInstance().updateTable2(in.readUTF());
+    }
+
+    @Override
+    public void run() {
+        try {
+            while (true) {
+                read();
+                write();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

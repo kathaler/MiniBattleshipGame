@@ -1,19 +1,30 @@
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Observable;
 
 public class BoardPanelA extends BoardPanel implements MouseListener{
     private BlackBoard bb;
-    private Square[][] table1;
-    private Square[][] table2;
+    boolean start = false;
     public BoardPanelA() {
         this.addMouseListener(this);
         bb = BlackBoard.getInstance();
-        bb.addObserver(this);
+        bb.updateTable1(Util.serialize(this.panels));
+        bb.updateTable2(Util.serialize(this.panels));
     }
 
-    public void updateBlackBoard() {
+//    @Override
+//    public void update(Observable o, Object arg) {
+//        if(start) {
+//            Square[][] sqr = ((BlackBoard) o).getTable2();
+//            this.panels = sqr;
+//            super.markSquares();
+//        }
+//    }
 
+    public void processClick(){
+        start = true;
+        bb.updateTable1(Util.serialize(panels));
     }
 
     @Override

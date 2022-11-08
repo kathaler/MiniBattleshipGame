@@ -13,6 +13,7 @@ import java.util.Observer;
 
 public class BoardPanel extends JPanel implements Observer {
     Square[][] panels;
+    JPanel main;
     ArrayList<Square> areClicked;
     private static final int SIDES = 11;
     private static final int SIDE_LENGTH = 34;
@@ -21,20 +22,30 @@ public class BoardPanel extends JPanel implements Observer {
     private static final Color CELL_COLOR = new Color(191,230,255);
 
     public BoardPanel(){
+        BlackBoard.getInstance().addObserver(this);
+        refreshMainPanel(null);
+    }
+
+    void refreshMainPanel(Square[][] sqr) {
         this.panels = new Square[SIDES][SIDES];
         this.areClicked = new ArrayList<>();
         Dimension prefSize = new Dimension(SIDE_LENGTH, SIDE_LENGTH);
-        JPanel panel = new JPanel();
-        panel.setBackground(BG);
-        panel.setBorder(BorderFactory.createEmptyBorder(GAP, GAP, GAP, GAP));
-        panel.setLayout(new GridLayout(SIDES, SIDES, GAP, GAP));
+        main = new JPanel();
+        main.setBackground(BG);
+        main.setBorder(BorderFactory.createEmptyBorder(GAP, GAP, GAP, GAP));
+        main.setLayout(new GridLayout(SIDES, SIDES, GAP, GAP));
         for (int i = 0; i < SIDES; i++) {
             for (int j = 0; j < SIDES; j++) {
                 boolean c = true;
                 if(i == 0 || j == 0) {
                     c = false;
                 }
-                Square cell = new Square(i,j,c, this);
+                Square cell = null;
+                if(sqr != null) {
+                    cell = sqr[i][j];
+                } else {
+                    cell = new Square(i,j,c,this);
+                }
                 cell.setBackground(CELL_COLOR);
                 cell.setPreferredSize(prefSize);
                 panels[i][j] = cell;
@@ -59,11 +70,11 @@ public class BoardPanel extends JPanel implements Observer {
 
         for(JPanel[] i : panels) {
             for(JPanel j : i) {
-                panel.add(j);
+                main.add(j);
             }
         }
 
-        this.add(panel);
+        this.add(main);
     }
 
     private JLabel label(String t) {
@@ -73,19 +84,17 @@ public class BoardPanel extends JPanel implements Observer {
         return p;
     }
 
-    void updateSquares() throws IOException {
-        this.setBackground(BG);
-        System.out.println("CLICK");
+    public void processClick(){
+
     }
 
     @Override
     public void update(Observable o, Object arg) {
-
     }
+
 
     @Override
     protected void paintComponent(Graphics g) {
-
     }
 
 }

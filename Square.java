@@ -3,8 +3,6 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
-import java.io.ObjectStreamConstants;
-import java.util.Observable;
 
 public class Square extends JPanel implements MouseListener{
     private int x;
@@ -14,16 +12,38 @@ public class Square extends JPanel implements MouseListener{
     private JLabel status;
     private BoardPanel bp;
 
-    public Square(int x, int y, boolean c, BoardPanel bp) {
+    public Square(int x, int y, boolean c, BoardPanel boardPanel) {
         this.x = x;
         this.y = y;
         this.clickable = c;
+        this.isClicked = false;
         this.status = new JLabel("");
         this.status.setForeground(Color.RED);
         this.status.setFont(new Font("Verdana", Font.BOLD, 18));
-        this.bp = bp;
+        this.bp = boardPanel;
         this.add(status);
         this.addMouseListener(this);
+    }
+
+    public Square(int x, int y, boolean clickable, boolean isClicked, BoardPanel bp) {
+        this.x = x;
+        this.y = y;
+        this.clickable = clickable;
+        this.isClicked  = isClicked;
+        this.bp = bp;
+        if(isClicked) {
+            this.status = new JLabel("X");
+        } else {
+            this.status = new JLabel("");
+        }
+        this.status.setForeground(Color.RED);
+        this.status.setFont(new Font("Verdana", Font.BOLD, 18));
+        this.add(status);
+        this.addMouseListener(this);
+    }
+
+    public boolean isClickable() {
+        return clickable;
     }
 
     public boolean isClicked() {
@@ -50,12 +70,15 @@ public class Square extends JPanel implements MouseListener{
             this.status.setText("X");
             this.isClicked = true;
             this.clickable = false;
-            try {
-                bp.updateSquares();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+            bp.processClick();
         }
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.x + "," + this.y + "," + this.isClicked + "," + this.clickable + "/");
+        return sb.toString();
     }
 
     @Override

@@ -1,13 +1,12 @@
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
 public class Game extends JFrame implements ActionListener {
-    BoardPanelB b1;
-    BoardPanelA b2;
+    BoardPanelA topPanel;
+    BoardPanelB bottomPanel;
     JLabel connected;
 
     public Game() throws IOException {
@@ -16,11 +15,11 @@ public class Game extends JFrame implements ActionListener {
 
         JPanel main = new JPanel();
         main.setBackground(Color.GRAY);
-        b1 = new BoardPanelB();
-        b2 = new BoardPanelA();
+        topPanel = new BoardPanelA();
+        bottomPanel = new BoardPanelB();
         main.setLayout(grid);
-        main.add(b1);
-        main.add(b2);
+        main.add(topPanel);
+        main.add(bottomPanel);
         this.add(main);
         JMenuBar mb = new JMenuBar ();
         JMenu m1 = new JMenu ("Game");
@@ -65,13 +64,14 @@ public class Game extends JFrame implements ActionListener {
             String ip = creds[0];
             int port = Integer.parseInt(creds[1]);
             try {
-                Client client = new Client(b2);
-                client.establishConnection(ip, port);
+                Thread thread = new Thread(new Client(ip, port));
+                thread.start();
                 connected.setText("Connected");
-                b1.setClient(client);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
         }
     }
+
+
 }

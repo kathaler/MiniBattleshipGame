@@ -2,29 +2,46 @@ import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.util.Observable;
 
 public class BoardPanelB extends BoardPanel implements MouseListener{
-    private Client client;
     public BoardPanelB() throws IOException {
         this.addMouseListener(this);
     }
 
-    public void setClient(Client client) {
-        this.client = client;
+//    @Override
+//    public void updateSquares() throws IOException {
+//        StringBuilder str = new StringBuilder();
+//
+//        for(Square[] s: panels) {
+//            for(Square sq : s) {
+//                str.append(sq);
+//            }
+//        }
+//        client.write(str.toString());
+//    }
+//
+    @Override
+    public void update(Observable o, Object arg) {
+        String str = ((BlackBoard) o).getTable2();
+        Square[][] squares = deserialize(str);
+        panels = squares;
+        this.remove(main);
+        super.refreshMainPanel(squares);
+        super.validate();
     }
 
-    @Override
-    public void updateSquares() throws IOException {
-        StringBuilder str = new StringBuilder();
-
-        for(Square[] s: panels) {
-            for(Square sq : s) {
-                if(sq.isClicked()) {
-                    str.append("(" + sq.getRow() + "," + sq.getCol() + ") ");
-                }
+    public Square[][] deserialize(String str) {
+        Square[][] squares = new Square[11][11];
+        String[] sq = str.split("/");
+        for(int i = 0; i < 11; i++) {
+            for(int j = 0; j < 11; j++) {
+                String[] curr = sq[i*11 + j].split(",");
+                squares[i][j] = new Square(Integer.parseInt(curr[0]), Integer.parseInt(curr[1]),
+                        Boolean.parseBoolean(curr[3]), Boolean.parseBoolean(curr[2]), this);
             }
         }
-        client.write(str.toString());
+        return squares;
     }
 
     @Override
