@@ -24,6 +24,7 @@ public class BoardPanel extends JPanel implements Observer {
     public BoardPanel(){
         BlackBoard.getInstance().addObserver(this);
         refreshMainPanel(null);
+        this.setBackground(BG);
     }
 
     void refreshMainPanel(Square[][] sqr) {

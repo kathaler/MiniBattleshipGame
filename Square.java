@@ -42,6 +42,10 @@ public class Square extends JPanel implements MouseListener{
         this.addMouseListener(this);
     }
 
+    public void setClickable(boolean clickable) {
+        this.clickable = clickable;
+    }
+
     public boolean isClickable() {
         return clickable;
     }

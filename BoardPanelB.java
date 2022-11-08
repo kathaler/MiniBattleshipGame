@@ -7,20 +7,13 @@ import java.util.Observable;
 public class BoardPanelB extends BoardPanel implements MouseListener{
     public BoardPanelB() throws IOException {
         this.addMouseListener(this);
+        for(Square[] i : panels) {
+            for(Square j : i) {
+                j.setClickable(false);
+            }
+        }
     }
 
-//    @Override
-//    public void updateSquares() throws IOException {
-//        StringBuilder str = new StringBuilder();
-//
-//        for(Square[] s: panels) {
-//            for(Square sq : s) {
-//                str.append(sq);
-//            }
-//        }
-//        client.write(str.toString());
-//    }
-//
     @Override
     public void update(Observable o, Object arg) {
         String str = ((BlackBoard) o).getTable2();
@@ -38,7 +31,7 @@ public class BoardPanelB extends BoardPanel implements MouseListener{
             for(int j = 0; j < 11; j++) {
                 String[] curr = sq[i*11 + j].split(",");
                 squares[i][j] = new Square(Integer.parseInt(curr[0]), Integer.parseInt(curr[1]),
-                        Boolean.parseBoolean(curr[3]), Boolean.parseBoolean(curr[2]), this);
+                        false, Boolean.parseBoolean(curr[2]), this);
             }
         }
         return squares;
