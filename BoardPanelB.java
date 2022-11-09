@@ -2,27 +2,36 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
-public class BoardPanelB extends BoardPanel implements MouseListener{
-    public BoardPanelB() throws IOException {
-        this.addMouseListener(this);
+public class BoardPanelB extends BoardPanel{
+    ArrayList<ArrayList<Square>> ships;
+
+    public BoardPanelB() {
+        ships = new ArrayList<>();
         for(Square[] i : squares) {
             for(Square j : i) {
                 j.setClickable(false);
             }
         }
         randomlyGenerateShips();
+        BlackBoard.getInstance().updateTable2(Util.serialize(squares));
+        BlackBoard.getInstance().setShips(Util.serializeShips(ships));
     }
 
     private void randomlyGenerateShips() {
         int[] shipLengths = new int[]{2,3,3,4,5};
         Random rand = new Random();
-        for (int i =0; i<shipLengths.length; i++){
-            int row = 1+rand.nextInt(6);
-            int column = 1+rand.nextInt(6);
+        ships = new ArrayList<>();
+        for (int i = 0; i < shipLengths.length; i++){
+            ArrayList<Square> ship = new ArrayList<>();
+            int row = rand.nextInt(9);
+            int column = rand.nextInt(9);
             int ori = rand.nextInt(2);
+
             int[] coords = new int[]{row, column};
             String orientation = "";
             if (ori==1){
@@ -30,62 +39,59 @@ public class BoardPanelB extends BoardPanel implements MouseListener{
             }else{
                 orientation = "h";
             }
-            int j = 0;
-            while((j < shipLengths[i]) || (coords[0] < 10 && coords[1] < 10)) {
-                if(orientation.equals("v")) {
-                    squares[coords[0]][coords[1]++].makeShip();
-                } else {
-                    squares[coords[0]++][coords[1]].makeShip();
+
+            boolean tf = checkIfAvail(coords, orientation, shipLengths[i]);
+            while(!tf) {
+                row = rand.nextInt(11);
+                column = rand.nextInt(11);
+                ori = rand.nextInt(2);
+                coords = new int[]{row, column};
+                if (ori==1){
+                    orientation = "v";
+                }else{
+                    orientation = "h";
                 }
-                j++;
+                tf = checkIfAvail(coords, orientation, shipLengths[i]);
             }
+            for(int j = 0; j < shipLengths[i]; j++) {
+                if (orientation.equals("v")) {
+                    ship.add(squares[coords[0]][coords[1]++]);
+                } else {
+                    ship.add(squares[coords[0]++][coords[1]]);
+                }
+            }
+            ships.add(ship);
         }
+    }
+
+    public boolean checkIfAvail(int[] coords, String ori, int length) {
+        int i = 0;
+        while (i < length){
+            if(coords[0]+i <= 0 || coords[1]+i <= 0 || coords[0]+i >= 11 || coords[1]+i >= 11) {
+                return false;
+            }
+            else if(ori.equals("v")) {
+                if(squares[coords[0]][coords[1] + i].isShip()) {
+                    return false;
+                }
+            }
+            else if(ori.equals("h")) {
+                if(squares[coords[0] + i][coords[1]].isShip()) {
+                    return false;
+                }
+            }
+            i++;
+        }
+        return true;
     }
 
     @Override
     public void update(Observable o, Object arg) {
         String str = ((BlackBoard) o).getTable2();
-        Square[][] squares = deserialize(str);
+        Square[][] squares = Util.deserialize(str, this);
         this.squares = squares;
         this.remove(main);
-        super.refreshMainPanel(squares);
+        super.refreshMainPanel(squares, this.ships);
         super.validate();
-    }
-
-    public Square[][] deserialize(String str) {
-        Square[][] squares = new Square[11][11];
-        String[] sq = str.split("/");
-        for(int i = 0; i < 11; i++) {
-            for(int j = 0; j < 11; j++) {
-                String[] curr = sq[i*11 + j].split(",");
-                squares[i][j] = new Square(Integer.parseInt(curr[0]), Integer.parseInt(curr[1]),
-                        false, Boolean.parseBoolean(curr[2]), Boolean.parseBoolean(curr[4]), this);
-            }
-        }
-        return squares;
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
     }
 }

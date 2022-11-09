@@ -8,18 +8,20 @@ public class Game extends JFrame implements ActionListener {
     BoardPanelA topPanel;
     BoardPanelB bottomPanel;
     JLabel connected;
+    JPanel main;
 
     public Game() throws IOException {
         super("Mini Battleship Game");
+
         GridLayout grid = new GridLayout(2,1);
 
-        JPanel main = new JPanel();
+        main = new JPanel();
         main.setBackground(Color.GRAY);
-        topPanel = new BoardPanelA();
-        bottomPanel = new BoardPanelB();
+//        topPanel = new BoardPanelA();
+//        bottomPanel = new BoardPanelB();
         main.setLayout(grid);
-        main.add(topPanel);
-        main.add(bottomPanel);
+//        main.add(topPanel);
+//        main.add(bottomPanel);
         this.add(main);
         JMenuBar mb = new JMenuBar ();
         JMenu m1 = new JMenu ("Game");
@@ -41,6 +43,13 @@ public class Game extends JFrame implements ActionListener {
         sPanel.add(connected);
         sPanel.setMaximumSize(new Dimension(1000,8));
         add(sPanel, BorderLayout.NORTH);
+    }
+
+    private void addGamePanels() {
+        topPanel = new BoardPanelA();
+        bottomPanel = new BoardPanelB();
+        main.add(topPanel);
+        main.add(bottomPanel);
     }
 
     public static void main(String[] args) throws IOException {
@@ -71,6 +80,7 @@ public class Game extends JFrame implements ActionListener {
                 throw new RuntimeException(ex);
             }
         }
+        addGamePanels();
     }
 
 

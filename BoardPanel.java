@@ -13,14 +13,16 @@ public class BoardPanel extends JPanel implements Observer {
     private static final int GAP = 2;
     private static final Color BG = Color.GRAY;
     private static final Color CELL_COLOR = new Color(191,230,255);
+    private BlackBoard bb;
 
     public BoardPanel(){
-        BlackBoard.getInstance().addObserver(this);
-        refreshMainPanel(null);
+        bb = BlackBoard.getInstance();
+        bb.addObserver(this);
+        refreshMainPanel(null, null);
         this.setBackground(BG);
     }
 
-    void refreshMainPanel(Square[][] sqr) {
+    void refreshMainPanel(Square[][] sqr, ArrayList<ArrayList<Square>> ships) {
         this.squares = new Square[SIDES][SIDES];
         this.areClicked = new ArrayList<>();
         Dimension prefSize = new Dimension(SIDE_LENGTH, SIDE_LENGTH);
@@ -35,18 +37,19 @@ public class BoardPanel extends JPanel implements Observer {
                     c = false;
                 }
                 Square cell = null;
-                if(sqr != null) {
+                if(sqr != null && ships != null) {
                     cell = sqr[i][j];
+                    cell.colorSquare(CELL_COLOR);
                 } else {
                     cell = new Square(i,j,c,this);
+                    cell.setBackground(CELL_COLOR);
                 }
-                cell.setBackground(CELL_COLOR);
                 cell.setPreferredSize(prefSize);
                 squares[i][j] = cell;
             }
         }
 
-        squares[0][0].add(new JLabel());
+        squares[0][0].add(new JLabel(": )"));
         squares[0][1].add(label("A"));
         squares[0][2].add(label("B"));
         squares[0][3].add(label("C"));
@@ -69,6 +72,19 @@ public class BoardPanel extends JPanel implements Observer {
         }
 
         this.add(main);
+    }
+
+    private boolean checkIfCellHasShip(Square cell, ArrayList<ArrayList<Square>> ships) {
+        int row = cell.getRow();
+        int col = cell.getCol();
+        for(ArrayList<Square> ship : ships) {
+            for(Square sqr : ship) {
+                if(row == sqr.getRow() && col == sqr.getCol()) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private JLabel label(String t) {

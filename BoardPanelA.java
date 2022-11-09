@@ -1,44 +1,26 @@
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
-public class BoardPanelA extends BoardPanel implements MouseListener{
+public class BoardPanelA extends BoardPanel{
     private BlackBoard bb;
     boolean start = false;
+    ArrayList<ArrayList<Square>> enemyShips;
+
     public BoardPanelA() {
-        this.addMouseListener(this);
         bb = BlackBoard.getInstance();
         bb.updateTable1(Util.serialize(this.squares));
-        bb.updateTable2(Util.serialize(this.squares));
     }
 
     public void processClick(){
         start = true;
+        if(enemyShips == null) {
+            String check = BlackBoard.getInstance().getEnemyShips();
+            if(check != null) {
+                enemyShips = Util.deserializeShips(check, this);
+            }
+        }
         bb.updateTable1(Util.serialize(squares));
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
     }
 }
