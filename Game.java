@@ -17,11 +17,7 @@ public class Game extends JFrame implements ActionListener {
 
         main = new JPanel();
         main.setBackground(Color.GRAY);
-//        topPanel = new BoardPanelA();
-//        bottomPanel = new BoardPanelB();
         main.setLayout(grid);
-//        main.add(topPanel);
-//        main.add(bottomPanel);
         this.add(main);
         JMenuBar mb = new JMenuBar ();
         JMenu m1 = new JMenu ("Game");

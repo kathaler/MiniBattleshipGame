@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class Square extends JPanel implements MouseListener{
@@ -26,49 +25,32 @@ public class Square extends JPanel implements MouseListener{
         this.addMouseListener(this);
     }
 
+    // Squares created by deserializing BlackBoard tables
     public Square(int x, int y, boolean clickable, boolean isClicked, BoardPanel bp) {
         this.x = x;
         this.y = y;
+        this.status = new JLabel("");
+
         if(bp instanceof BoardPanelB) {
-            System.out.println(bp.getClass());
-            System.out.println("SHIPS===============");
-            for(ArrayList<Square> ship : ((BoardPanelB)bp).ships) {
-                for(Square sqr : ship) {
-                    System.out.println(sqr);
-                }
-            }
             this.clickable = clickable;
             this.isClicked  = isClicked;
             this.bp = bp;
-            if(isClicked && isShip()) {
-                this.status = new JLabel("X");
-                this.status.setForeground(Color.RED);
-            }
-            else if(isClicked) {
+            if(isShip()) {
+                this.setBackground(Color.BLACK);
+                if(isClicked) {
+                    this.status = new JLabel("X");
+                    this.status.setForeground(Color.RED);
+                }
+            } else if(isClicked) {
                 this.status = new JLabel("O");
                 this.status.setForeground(Color.BLUE);
             }
-            else {
-                this.status = new JLabel("");
-            }
-            if(isShip()) {
-                this.setBackground(Color.BLACK);
-            }
-            this.status.setFont(new Font("Verdana", Font.BOLD, 18));
+
+            this.status.setFont(new Font("Verdana", Font.BOLD, 20));
             this.add(status);
             this.addMouseListener(this);
         }
     }
-
-    public boolean isShip() {
-        for(ArrayList<Square> ships : ((BoardPanelB)bp).ships) {
-            for(Square sqr : ships) {
-                if(this.x == sqr.getRow() && this.y == sqr.getCol()) return true;
-            }
-        }
-        return false;
-    }
-
 
     public int getRow() {
         return x;
@@ -90,6 +72,10 @@ public class Square extends JPanel implements MouseListener{
         this.clickable = clickable;
     }
 
+    public boolean isClicked() {
+        return isClicked;
+    }
+
     @Override
     public void mousePressed(MouseEvent e) {
         if(clickable) {
@@ -103,7 +89,18 @@ public class Square extends JPanel implements MouseListener{
                 this.status.setText("O");
                 this.status.setForeground(Color.BLUE);
             }
+            Color c = new Color(191,230,255);
+            this.setBackground(c);
         }
+    }
+
+    public boolean isShip() {
+        for(ArrayList<Square> ships : ((BoardPanelB)bp).ships) {
+            for(Square sqr : ships) {
+                if(this.x == sqr.getRow() && this.y == sqr.getCol()) return true;
+            }
+        }
+        return false;
     }
 
     public boolean hitShip() {
@@ -134,11 +131,17 @@ public class Square extends JPanel implements MouseListener{
 
     @Override
     public void mouseEntered(MouseEvent e) {
-
+        if(clickable){
+            Color c = new Color(216, 237, 255);
+            this.setBackground(c);
+        }
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-
+        if(clickable){
+            Color c = new Color(191,230,255);
+            this.setBackground(c);
+        }
     }
 }

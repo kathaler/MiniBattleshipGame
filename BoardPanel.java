@@ -74,6 +74,23 @@ public class BoardPanel extends JPanel implements Observer {
         this.add(main);
     }
 
+//    void winnerScreen() {
+//        squares = null;
+//        main = new JPanel();
+//        main.setBackground(BG);
+//        main.setBorder(BorderFactory.createEmptyBorder(GAP, GAP, GAP, GAP));
+//        main.setLayout(new GridLayout(SIDES, SIDES, GAP, GAP));
+//        JPanel winner = new JPanel();
+//        JLabel l = new JLabel("YOURE THE WINNER!");
+//        winner.add(l);
+//        main.add(l);
+//        this.add(main);
+//    }
+
+    void loserScreen() {
+
+    }
+
     private boolean checkIfCellHasShip(Square cell, ArrayList<ArrayList<Square>> ships) {
         int row = cell.getRow();
         int col = cell.getCol();

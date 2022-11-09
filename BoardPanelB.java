@@ -1,11 +1,7 @@
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.IOException;
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 public class BoardPanelB extends BoardPanel{
     ArrayList<ArrayList<Square>> ships;
@@ -85,6 +81,19 @@ public class BoardPanelB extends BoardPanel{
         return true;
     }
 
+    private boolean didIWin() {
+        for(ArrayList<Square> ship : ships) {
+            for(Square sqr : ship) {
+                int x = sqr.getRow();
+                int y = sqr.getCol();
+                if(!squares[x][y].isShip() || !squares[x][y].isClicked()) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     @Override
     public void update(Observable o, Object arg) {
         String str = ((BlackBoard) o).getTable2();
@@ -93,5 +102,9 @@ public class BoardPanelB extends BoardPanel{
         this.remove(main);
         super.refreshMainPanel(squares, this.ships);
         super.validate();
+        if(didIWin()) {
+            System.out.println("WINNER");
+            //super.winnerScreen();
+        }
     }
 }

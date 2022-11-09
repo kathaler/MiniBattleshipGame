@@ -1,10 +1,7 @@
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.concurrent.TimeUnit;
 
 public class Server extends Network implements Runnable {
     private InetAddress ip;
@@ -14,7 +11,7 @@ public class Server extends Network implements Runnable {
         try {
             this.ip = InetAddress.getLocalHost();
             this.server = new ServerSocket(0, 1, ip);
-            System.out.println("IP: " + getIP() + "\nPort: " + getPort());
+            System.out.println("IP:Port = " + getIP() + ":" + getPort());
             Socket socket = server.accept();
             super.setSocket(socket);
 
