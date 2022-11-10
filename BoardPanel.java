@@ -112,6 +112,7 @@ public class BoardPanel extends JPanel implements Observer {
 
     @Override
     protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
     }
 
 }
