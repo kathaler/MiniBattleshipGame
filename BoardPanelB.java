@@ -81,7 +81,7 @@ public class BoardPanelB extends BoardPanel{
         return true;
     }
 
-    private boolean didIWin() {
+    private boolean didILose() {
         for(ArrayList<Square> ship : ships) {
             for(Square sqr : ship) {
                 int x = sqr.getRow();
@@ -101,10 +101,11 @@ public class BoardPanelB extends BoardPanel{
         this.squares = squares;
         this.remove(main);
         super.refreshMainPanel(squares, this.ships);
-        super.validate();
-        if(didIWin()) {
-            System.out.println("WINNER");
-            //super.winnerScreen();
+        if(didILose()) {
+            System.out.println("Loser");
+            this.remove(main);
+            super.loserScreen();
+            super.validate();
         }
     }
 }

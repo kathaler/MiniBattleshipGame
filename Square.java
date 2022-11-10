@@ -85,6 +85,7 @@ public class Square extends JPanel implements MouseListener{
             if(hitShip()) {
                 this.status.setText("X");
                 this.status.setForeground(Color.RED);
+
             } else {
                 this.status.setText("O");
                 this.status.setForeground(Color.BLUE);
@@ -106,7 +107,10 @@ public class Square extends JPanel implements MouseListener{
     public boolean hitShip() {
         for(ArrayList<Square> ships : ((BoardPanelA)bp).enemyShips) {
             for(Square sqr : ships) {
-                if(this.x == sqr.getRow() && this.y == sqr.getCol()) return true;
+                if(this.x == sqr.getRow() && this.y == sqr.getCol()) {
+                    ((BoardPanelA)bp).numShipsHit++;
+                    return true;
+                }
             }
         }
         return false;

@@ -3,7 +3,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Server extends Network implements Runnable {
+public class Server extends Network{
     private InetAddress ip;
     private ServerSocket server;
 

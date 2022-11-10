@@ -72,23 +72,54 @@ public class BoardPanel extends JPanel implements Observer {
         }
 
         this.add(main);
+        validate();
     }
 
-//    void winnerScreen() {
-//        squares = null;
-//        main = new JPanel();
-//        main.setBackground(BG);
-//        main.setBorder(BorderFactory.createEmptyBorder(GAP, GAP, GAP, GAP));
-//        main.setLayout(new GridLayout(SIDES, SIDES, GAP, GAP));
-//        JPanel winner = new JPanel();
-//        JLabel l = new JLabel("YOURE THE WINNER!");
-//        winner.add(l);
-//        main.add(l);
-//        this.add(main);
-//    }
+    void winnerScreen() {
+        squares = null;
+        main = new JPanel();
+        main.setBackground(BG);
+        main.setBorder(BorderFactory.createEmptyBorder(GAP, GAP, GAP, GAP));
+        main.setLayout(new GridLayout(SIDES, SIDES, GAP, GAP));
+        JPanel winner = new JPanel();
+        JLabel l = new JLabel("YOU WON!");
+        winner.add(l);
+        main.add(l);
+        this.add(main);
+    }
 
     void loserScreen() {
+        squares = null;
+        main = new JPanel();
+        main.setBackground(BG);
+        main.setBorder(BorderFactory.createEmptyBorder(GAP, GAP, GAP, GAP));
+        main.setLayout(new GridLayout(SIDES, SIDES, GAP, GAP));
+        JPanel loser = new JPanel();
+        JLabel l = new JLabel("YOU LOST!");
+        loser.add(l);
+        main.add(l);
+        this.add(main);
+    }
 
+    void endGameScreen(ArrayList<ArrayList<Square>> ships, boolean didWin) {
+        this.remove(main);
+        refreshMainPanel(squares, ships);
+        validate();
+        squares = null;
+        main = new JPanel();
+        main.setBackground(BG);
+        main.setBorder(BorderFactory.createEmptyBorder(GAP, GAP, GAP, GAP));
+        main.setLayout(new GridLayout(SIDES, SIDES, GAP, GAP));
+        JPanel end = new JPanel();
+        JLabel message;
+        if(didWin) {
+            message = new JLabel("YOU WON!");
+        } else {
+            message = new JLabel("YOU LOST!");
+        }
+        end.add(message);
+        main.add(end);
+        this.add(main);
     }
 
     private boolean checkIfCellHasShip(Square cell, ArrayList<ArrayList<Square>> ships) {
