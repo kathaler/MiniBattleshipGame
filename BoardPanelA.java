@@ -14,20 +14,24 @@ public class BoardPanelA extends BoardPanel{
 
     public void processClick(){
         start = true;
-        if(enemyShips == null) {
-            String check = BlackBoard.getInstance().getEnemyShips();
-            if(check != null) {
-                enemyShips = Util.deserializeShips(check, this);
-            }
-        }
         bb.updateTable1(Util.serialize(squares));
+        System.out.println("in process Click : " + numShipsHit);
         if(numShipsHit == 17) {
             this.remove(main);
             super.refreshMainPanel(squares, null);
             System.out.println("Winner");
             this.remove(main);
-            super.winnerScreen();
+            super.endGameScreen(true);
             super.validate();
+        }
+    }
+
+    public void initEnemyShips() {
+        if(enemyShips == null) {
+            String check = BlackBoard.getInstance().getEnemyShips();
+            if(check != null) {
+                enemyShips = Util.deserializeShips(check, this);
+            }
         }
     }
 }

@@ -104,7 +104,7 @@ public class BoardPanelB extends BoardPanel{
         if(didILose()) {
             System.out.println("Loser");
             this.remove(main);
-            super.loserScreen();
+            super.endGameScreen(false);
             super.validate();
         }
     }

@@ -9,12 +9,10 @@ public class BlackBoard extends Observable {
     private String table2;
     private String ships;
     private String enemyShips;
-    private boolean gameStart;
 
     public BlackBoard() {
         table1 = "";
         table2 = "";
-        gameStart = false;
     }
 
     public static BlackBoard getInstance() {
@@ -39,13 +37,9 @@ public class BlackBoard extends Observable {
     public void setShips(String s) {
         ships = s;
     }
-
     public void setEnemyShips(String s) {
         enemyShips = s;
     }
-
-
-
     public String getTable1() {
         return table1;
     }
@@ -53,7 +47,6 @@ public class BlackBoard extends Observable {
         return table2;
     }
     public String getShips() { return ships; }
-
     public String getEnemyShips() {
         return enemyShips;
     }

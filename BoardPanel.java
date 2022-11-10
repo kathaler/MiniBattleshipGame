@@ -75,64 +75,23 @@ public class BoardPanel extends JPanel implements Observer {
         validate();
     }
 
-    void winnerScreen() {
-        squares = null;
-        main = new JPanel();
-        main.setBackground(BG);
-        main.setBorder(BorderFactory.createEmptyBorder(GAP, GAP, GAP, GAP));
-        main.setLayout(new GridLayout(SIDES, SIDES, GAP, GAP));
-        JPanel winner = new JPanel();
-        JLabel l = new JLabel("YOU WON!");
-        winner.add(l);
-        main.add(l);
-        this.add(main);
-    }
-
-    void loserScreen() {
-        squares = null;
-        main = new JPanel();
-        main.setBackground(BG);
-        main.setBorder(BorderFactory.createEmptyBorder(GAP, GAP, GAP, GAP));
-        main.setLayout(new GridLayout(SIDES, SIDES, GAP, GAP));
-        JPanel loser = new JPanel();
-        JLabel l = new JLabel("YOU LOST!");
-        loser.add(l);
-        main.add(l);
-        this.add(main);
-    }
-
-    void endGameScreen(ArrayList<ArrayList<Square>> ships, boolean didWin) {
-        this.remove(main);
-        refreshMainPanel(squares, ships);
-        validate();
+    void endGameScreen(boolean didWin) {
         squares = null;
         main = new JPanel();
         main.setBackground(BG);
         main.setBorder(BorderFactory.createEmptyBorder(GAP, GAP, GAP, GAP));
         main.setLayout(new GridLayout(SIDES, SIDES, GAP, GAP));
         JPanel end = new JPanel();
-        JLabel message;
+        JLabel l;
         if(didWin) {
-            message = new JLabel("YOU WON!");
+            l = new JLabel("YOU WON!");
         } else {
-            message = new JLabel("YOU LOST!");
+            l = new JLabel("YOU LOST!");
         }
-        end.add(message);
+        l.setFont(new Font("Verdana", Font.BOLD, 70));
+        end.add(l);
         main.add(end);
         this.add(main);
-    }
-
-    private boolean checkIfCellHasShip(Square cell, ArrayList<ArrayList<Square>> ships) {
-        int row = cell.getRow();
-        int col = cell.getCol();
-        for(ArrayList<Square> ship : ships) {
-            for(Square sqr : ship) {
-                if(row == sqr.getRow() && col == sqr.getCol()) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     private JLabel label(String t) {

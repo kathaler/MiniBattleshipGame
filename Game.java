@@ -12,7 +12,10 @@ public class Game extends JFrame implements ActionListener {
 
     public Game() throws IOException {
         super("Mini Battleship Game");
+        initGame();
+    }
 
+    private void initGame() {
         GridLayout grid = new GridLayout(2,1);
 
         main = new JPanel();
@@ -23,12 +26,16 @@ public class Game extends JFrame implements ActionListener {
         JMenu m1 = new JMenu ("Game");
         JMenuItem host = new JMenuItem ("Host");
         JMenuItem connect = new JMenuItem ("Connect");
+        //JMenuItem new_game = new JMenuItem ("New Game");
+
 
         host.addActionListener(this);
         connect.addActionListener(this);
+        //new_game.addActionListener(this);
 
         m1.add(host);
         m1.add(connect);
+        //m1.add(new_game);
 
         mb.add(m1);
         this.setJMenuBar(mb);
@@ -48,6 +55,13 @@ public class Game extends JFrame implements ActionListener {
         main.add(bottomPanel);
     }
 
+//    private void resetGame() {
+//        removeAll();
+//        revalidate();
+//        initGame();
+//        addGamePanels();
+//    }
+
     public static void main(String[] args) throws IOException {
         Game win = new Game ();
         win.getContentPane ().setBackground (Color.GRAY);
@@ -62,6 +76,7 @@ public class Game extends JFrame implements ActionListener {
             Thread thread = new Thread(new Server());
             thread.start();
             connected.setText("Connected");
+            addGamePanels();
         }
         else if(e.getActionCommand ().equals ("Connect")) {
             String ip_port = JOptionPane.showInputDialog("Please enter a game IP and Port (ip:port)");
@@ -75,8 +90,11 @@ public class Game extends JFrame implements ActionListener {
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
+            addGamePanels();
         }
-        addGamePanels();
+//        else if(e.getActionCommand().equals("New Game")) {
+//            resetGame();
+//        }
     }
 
 
