@@ -10,7 +10,6 @@ import java.io.IOException;
  * Jason Barba
  * Jenny Ferriol
  * Aiden Jacobs
- * Archie Jones
  * Michelle Tan
  * Karl Thaler
  */
