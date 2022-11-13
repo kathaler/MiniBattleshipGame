@@ -4,6 +4,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+/**
+ * Mini Battleship Game
+ * Authors:
+ * Jason Barba
+ * Jenny Ferriol
+ * Aiden Jacobs
+ * Archie Jones
+ * Michelle Tan
+ * Karl Thaler
+ */
+
 public class Game extends JFrame implements ActionListener {
     BoardPanelA topPanel;
     BoardPanelB bottomPanel;
